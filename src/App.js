@@ -1,55 +1,62 @@
 import React from 'react';
+import {
+  getDefaultWallets,
+  RainbowKitProvider,
+  ConnectButton,
+} from '@rainbow-me/rainbowkit';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import { mainnet } from 'wagmi/chains';
+import { publicProvider } from 'wagmi/providers/public';
+
+import '@rainbow-me/rainbowkit/styles.css';
+
+// Set up chains and providers
+const { chains, publicClient } = configureChains(
+  [mainnet],
+  [publicProvider()]
+);
+
+const { connectors } = getDefaultWallets({
+  appName: 'Gridly',
+  projectId: 'gridly-test-walletconnect', // this can be any string for now
+  chains,
+});
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient,
+});
 
 function App() {
   return (
-    <div style={{ fontFamily: 'Arial', padding: '2rem' }}>
-      {/* Hero */}
-      <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
-      <h1 style={{ fontSize: '3rem' }}>Welcome to Gridly 🔥</h1>
-        <p style={{ fontSize: '1.2rem' }}>Automate your trades. DeFi made simple.</p>
-        <button
-          style={{
-            marginTop: '1rem',
-            padding: '1rem 2rem',
-            fontSize: '1rem',
-            backgroundColor: '#282c34',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-          }}
-        >
-          Connect Wallet
-        </button>
-      </header>
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider chains={chains}>
+        <div style={{ fontFamily: 'Arial', padding: '2rem', textAlign: 'center' }}>
+          <h1>Welcome to Gridly 🔥</h1>
+          <p>Automate your DeFi grid trading experience.</p>
 
-      {/* Features */}
-      <section style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
-        <h2>🔥 Why Gridly?</h2>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li>✅ Easy-to-use grid trading bot</li>
-          <li>✅ Runs on Ethereum with MetaMask</li>
-          <li>✅ Built for beginners & pros</li>
-        </ul>
-      </section>
+          {/* Wallet Connect Button */}
+          <ConnectButton />
 
-      {/* CTA */}
-      <footer style={{ marginTop: '4rem', textAlign: 'center' }}>
-        <button
-          style={{
-            padding: '1rem 2rem',
-            fontSize: '1.2rem',
-            backgroundColor: '#4caf50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-          }}
-        >
-          Launch Bot
-        </button>
-      </footer>
-    </div>
+          <div style={{ marginTop: '3rem' }}>
+            <button
+              style={{
+                padding: '1rem 2rem',
+                fontSize: '1.2rem',
+                backgroundColor: '#4caf50',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+              }}
+            >
+              Launch Bot
+            </button>
+          </div>
+        </div>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 }
 
