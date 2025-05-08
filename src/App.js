@@ -5,7 +5,7 @@ function App() {
     <div style={{ fontFamily: 'Arial', padding: '2rem' }}>
       {/* Hero */}
       <header style={{ textAlign: 'center', marginBottom: '3rem' }}>
-        <h1 style={{ fontSize: '3rem' }}>Welcome to Gridly</h1>
+      <h1 style={{ fontSize: '3rem' }}>Welcome to Gridly 🔥</h1>
         <p style={{ fontSize: '1.2rem' }}>Automate your trades. DeFi made simple.</p>
         <button
           style={{
